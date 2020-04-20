@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tsb.springboot.mapper.UserMapper">
+
+  <resultMap id="BaseResultMap" type="org.tsb.springboot.model.SysUser">
+    <!--@Table sys_user-->
+    <result property="id" column="id" jdbcType="INTEGER"/>
+    <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+    <result property="userPassword" column="user_password" jdbcType="VARCHAR"/>
+    <result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
+    <result property="userInfo" column="user_info" jdbcType="VARCHAR"/>
+    <result property="headImg" column="head_img" jdbcType="BINARY"/>
+    <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+  </resultMap>
+
+  <!--查询单个-->
+  <select id="queryById" resultMap="BaseResultMap">
+    select id,
+           user_name,
+           user_password,
+           user_email,
+           user_info,
+           head_img,
+           create_time
+    from mybatis.sys_user
+    where id = #{id}
+  </select>
+
+  <select id="selectById" resultMap="BaseResultMap">
+    select id,
+           user_name,
+           user_password,
+           user_email,
+           user_info,
+           head_img,
+           create_time
+    from mybatis.sys_user
+    where id = #{id}
+  </select>
+
+  <!--查询指定行数据-->
+  <select id="queryAllByLimit" resultMap="BaseResultMap">
+    select id,
+           user_name,
+           user_password,
+           user_email,
+           user_info,
+           head_img,
+           create_time
+    from mybatis.sys_user
+    limit #{offset}, #{limit}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id,
+           user_name,
+           user_password,
+           user_email,
+           user_info,
+           head_img,
+           create_time
+    from sys_user
+  </select>
+
+  <!--通过实体作为筛选条件查询-->
+  <select id="queryAll" resultMap="BaseResultMap">
+    select
+    id, user_name, user_password, user_email, user_info, head_img, create_time
+    from mybatis.sys_user
+    <where>
+      <if test="id != null">
+        and id = #{id}
+      </if>
+      <if test="userName != null and userName != ''">
+        and user_name = #{userName}
+      </if>
+      <if test="userPassword != null and userPassword != ''">
+        and user_password = #{userPassword}
+      </if>
+      <if test="userEmail != null and userEmail != ''">
+        and user_email = #{userEmail}
+      </if>
+      <if test="userInfo != null and userInfo != ''">
+        and user_info = #{userInfo}
+      </if>
+      <if test="headImg != null">
+        and head_img = #{headImg}
+      </if>
+      <if test="createTime != null">
+        and create_time = #{createTime}
+      </if>
+    </where>
+  </select>
+
+  <!--新增所有列-->
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+    insert into mybatis.sys_user(user_name, user_password, user_email, user_info, head_img, create_time)
+    values (#{userName}, #{userPassword}, #{userEmail}, #{userInfo}, #{headImg}, #{createTime})
+  </insert>
+
+  <!--通过主键修改数据-->
+  <update id="update">
+    update mybatis.sys_user
+    <set>
+      <if test="userName != null and userName != ''">
+        user_name = #{userName},
+      </if>
+      <if test="userPassword != null and userPassword != ''">
+        user_password = #{userPassword},
+      </if>
+      <if test="userEmail != null and userEmail != ''">
+        user_email = #{userEmail},
+      </if>
+      <if test="userInfo != null and userInfo != ''">
+        user_info = #{userInfo},
+      </if>
+      <if test="headImg != null">
+        head_img = #{headImg},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <!--通过主键删除-->
+  <delete id="deleteById">
+    delete
+    from mybatis.sys_user
+    where id = #{id}
+  </delete>
+
+</mapper>
